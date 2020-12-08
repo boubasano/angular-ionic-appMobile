@@ -12,6 +12,8 @@ export class TodoComponent implements OnInit{
 
   public formTodo: FormGroup;
   public todoList: Todo[];
+  public btnDisabled: Boolean = false;
+  public btnText = "Enregistrer";
   /**
    * 
    * @param formBuilder 
@@ -41,6 +43,14 @@ save(name: string, description: string) {
   todo.nom = name;
   todo.description =description;
   this.todoService.post(todo);    
+}
+
+buttonClick() {
+  this.btnDisabled = true;
+  setTimeout(() => {
+    this.btnDisabled = false
+  }, 5000);
+
 }
 }
 

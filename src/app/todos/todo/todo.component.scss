@@ -1,15 +1,24 @@
 section {}
 
 #create {
-    margin-top: 50px;
+    margin-top: 60px;
     text-align: center;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+#input-list {
+    margin-top: 70px;
+    margin-bottom: 15px;
+}
+
+form {
+    margin-top: 70px;
 }
 
 #form-nom {
     margin-bottom: 5px;
 }
 
-form {
-    margin-top: 70px;
+#form-desc {
+    margin-bottom: 20px;
 }

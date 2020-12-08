@@ -1,27 +1,31 @@
-<!-- <section>
+<section>
+
+    <!-- #nom by this way we can select input for manipulation  -->
     <ion-icon name="arrow-back" routerLink="/todo"></ion-icon>
     <h1 id="create">
         Créer
     </h1>
-    <form [formGroup]="formTodo" (ngSubmit)="save()">
+    <form [formGroup]="formTodo" (click)="buttonClick()" [disabled]="btnDisabled" [ngStyle]="{'color': (btnDisabled)?
+                                'gray': 'black'}" (ngSubmit)="save(nom.value, description.value)">
         <ion-item id="form-nom">
             <ion-label>Nom de la tâche</ion-label>
-            <ion-input type="text" formControlName="nom"></ion-input>
+            <ion-input type="text" formControlName="nom" #nom></ion-input>
         </ion-item>
         <ion-item id="form-desc">
             <ion-label>Description</ion-label>
-            <ion-textarea type="text" formControlName="description"></ion-textarea>
+            <ion-textarea type="text" formControlName="description" #description></ion-textarea>
         </ion-item>
-        <button [disabled] ion-button type="submit">Save</button>
+        <button ion-button type="submit">
+        {{ btnText }}
+    </button>
     </form>
-</section> -->
 
+    <!-- <ion-card>
+    <ion-card-header>
+            Card Header
+    </ion-card-header>
+    </ion-card> -->
 
-<!-- #nom by this way we can select input for manipulation  -->
+    <button routerLink="/todo/list">list</button>
 
-<input placeholder="Nom" #nom/><br><br>
-<input placeholder="Description" #description/><br><br>
-<button (click)="save(nom.value, description.value)">SAVE</button>
-
-
-<button routerLink="/todo/list">list</button>
+</section>

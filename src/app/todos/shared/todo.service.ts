@@ -11,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 export class TodoService {
   public todoList: Todo[] = [];
   public alertCtrl: AlertController;
+  public disabled: Boolean;
   /**
    * permits to get data and put in array todoList
    * @param http 
@@ -58,17 +59,12 @@ export class TodoService {
    * @param todo 
    */
   post(todo: Todo): Todo {
-    // const alert = this.alertCtrl.create({
-    //   title: 'New Friend!',
-    //   subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
-    //   buttons: ['OK']
-    // });
-
     const created = [];
     this.todoList.forEach(element => {
         created.push(element)
     })
     created.push(todo);
+    console.log(created);
     this.put(created).subscribe(
       () => {this.todoList.push(todo);
               alert("votre tache est ajoutée");},
