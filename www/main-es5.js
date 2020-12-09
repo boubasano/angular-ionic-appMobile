@@ -363,12 +363,9 @@
         _createClass(AppComponent, [{
           key: "initializeApp",
           value: function initializeApp() {
-            var _this = this;
-
-            this.platform.ready().then(function () {
-              _this.statusBar.styleDefault();
-
-              _this.splashScreen.hide();
+            this.platform.ready().then(function () {// this.statusBar.styleDefault();
+              // durée de chargement
+              // this.splashScreen.hide();
             });
           }
         }]);
@@ -688,7 +685,7 @@
         }, {
           key: "delete",
           value: function _delete(todo) {
-            var _this2 = this;
+            var _this = this;
 
             var todoDeleted = [];
             this.todoList.forEach(function (element) {
@@ -697,12 +694,12 @@
               }
             });
             this.put(todoDeleted).subscribe(function () {
-              var index = _this2.todoList.indexOf(todo);
+              var index = _this.todoList.indexOf(todo);
 
               if (index !== -1) {
-                _this2.todoList.splice(index, 1);
+                _this.todoList.splice(index, 1);
 
-                _this2.put(_this2.todoList);
+                _this.put(_this.todoList);
               }
             }, function () {});
             return todo;
@@ -715,7 +712,7 @@
         }, {
           key: "post",
           value: function post(todo) {
-            var _this3 = this;
+            var _this2 = this;
 
             var created = [];
             this.todoList.forEach(function (element) {
@@ -724,7 +721,7 @@
             created.push(todo);
             console.log(created);
             this.put(created).subscribe(function () {
-              _this3.todoList.push(todo);
+              _this2.todoList.push(todo);
 
               alert("votre tache est ajoutée");
             }, function () {});
@@ -834,15 +831,15 @@
         _createClass(TodoListComponent, [{
           key: "reload",
           value: function reload() {
-            var _this4 = this;
+            var _this3 = this;
 
             this.todoService.get().subscribe(function (todoList) {
-              _this4.error = false;
-              _this4.todoList = _this4.todoService.todoList = todoList;
+              _this3.error = false;
+              _this3.todoList = _this3.todoService.todoList = todoList;
             }, //  this.todoList = todoList;
             // this.todoService.todoList = this.todoList;
             function () {
-              _this4.error = true;
+              _this3.error = true;
             });
           }
           /**
@@ -993,11 +990,11 @@
         }, {
           key: "buttonClick",
           value: function buttonClick() {
-            var _this5 = this;
+            var _this4 = this;
 
             this.btnDisabled = true;
             setTimeout(function () {
-              _this5.btnDisabled = false;
+              _this4.btnDisabled = false;
             }, 5000);
           }
         }]);

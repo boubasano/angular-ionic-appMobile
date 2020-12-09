@@ -15,17 +15,22 @@
             <ion-label>Description</ion-label>
             <ion-textarea type="text" formControlName="description" #description></ion-textarea>
         </ion-item>
-        <button ion-button type="submit">
+        <div class="enregistrer">
+            <ion-icon name="paper-plane-sharp"></ion-icon>
+            <button ion-button color="dark" round type="submit">{{ btnText }}</button>
+        </div>
+        <!-- <button ion-button type="submit">
         {{ btnText }}
-    </button>
+        </button> -->
+
+        <!-- <ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon> -->
     </form>
+    <div class="bandeau">
+        <a routerLink="/todo/list">
+            <h1>Découvrez içi vos tâches</h1>
+        </a>
+    </div>
 
-    <!-- <ion-card>
-    <ion-card-header>
-            Card Header
-    </ion-card-header>
-    </ion-card> -->
-
-    <button routerLink="/todo/list">list</button>
+    <!-- <button routerLink="/todo/list">list</button> -->
 
 </section>
