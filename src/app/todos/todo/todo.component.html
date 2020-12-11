@@ -1,36 +1,30 @@
 <section>
 
-    <!-- #nom by this way we can select input for manipulation  -->
+    <!-- #name by this way we can select input for manipulation  -->
     <ion-icon name="arrow-back" routerLink="/todo"></ion-icon>
     <h1 id="create">
         Créer
     </h1>
-    <form [formGroup]="formTodo" (click)="buttonClick()" [disabled]="btnDisabled" [ngStyle]="{'color': (btnDisabled)?
-                                'gray': 'black'}" (ngSubmit)="save(nom.value, description.value)">
-        <ion-item id="form-nom">
-            <ion-label>Nom de la tâche</ion-label>
-            <ion-input type="text" formControlName="nom" #nom></ion-input>
+    <form [formGroup]="formTodo" (ngSubmit)="save()">
+        <ion-item id="form-name">
+            <ion-label>name de la tâche</ion-label>
+            <ion-input type="text" formControlName="name" #name></ion-input>
         </ion-item>
         <ion-item id="form-desc">
             <ion-label>Description</ion-label>
             <ion-textarea type="text" formControlName="description" #description></ion-textarea>
         </ion-item>
         <div class="enregistrer">
-            <ion-icon name="paper-plane-sharp"></ion-icon>
-            <button ion-button color="dark" round type="submit">{{ btnText }}</button>
-        </div>
-        <!-- <button ion-button type="submit">
+            <button [disabled]="btnDisabled" ion-button type="submit">
         {{ btnText }}
-        </button> -->
-
-        <!-- <ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon> -->
+        </button>
+        </div>
+        <!-- <ion-icon name="send-sharp"></ion-icon> -->
+        <!-- <button ion-button color="dark" round type="submit">{{ btnText }}</button> -->
     </form>
     <div class="bandeau">
         <a routerLink="/todo/list">
             <h1>Découvrez içi vos tâches</h1>
         </a>
     </div>
-
-    <!-- <button routerLink="/todo/list">list</button> -->
-
 </section>

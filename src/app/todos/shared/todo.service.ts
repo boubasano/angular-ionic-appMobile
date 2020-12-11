@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Todo } from './todo.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { AlertController } from '@ionic/angular';
-
+import { tap} from 'rxjs/operators'
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,56 +22,49 @@ export class TodoService {
  * typage de type Observable
  */
   get(): Observable<Todo[]>{
-    const options = {
-      headers: new HttpHeaders({
-        "secret-key": environment.jsonbin.key,
-      })
-    };
-    const url = environment.jsonbin.url;
-    return this.http.get<Todo[]>(url, options);
+    const url = environment.api.url;
+    return this.http.get<Todo[]>(url).pipe(
+      tap(
+        (todoList: Todo[])=>{this.todoList = todoList},
+        ()=>{}
+      )
+    );
   }
 
   /**
    * permits to delete and update it
    * @param todo 
    */
-  delete(todo: Todo): Todo {
-    const todoDeleted = [];
-    this.todoList.forEach(element => {
-      if(element != todo){
-          todoDeleted.push(element);
-      }
-    });
-    this.put(todoDeleted).subscribe(
-      () => {
-      const index: number = this.todoList.indexOf(todo);
-    if (index !== -1) {
-      this.todoList.splice(index, 1);
-      this.put(this.todoList);
-    }
-      },
-      () => {}
+  delete(todo: Todo): Observable<Todo> {
+    return this.http.delete<Todo>(environment.api.url+todo.id).pipe(
+      tap(
+        () => {
+          const index = this.todoList.indexOf(todo);
+          if (index !== -1) {
+            this.todoList.splice(index, 1);
+            this.put(this.todoList);
+          }
+        },
+        () => {}
+      )
     )
-    return todo;
+ 
   }
 
   /**
    * permits to read data and update it 
    * @param todo 
    */
-  post(todo: Todo): Todo {
-    const created = [];
-    this.todoList.forEach(element => {
-        created.push(element)
-    })
-    created.push(todo);
-    console.log(created);
-    this.put(created).subscribe(
-      () => {this.todoList.push(todo);
-              alert("votre tache est ajoutée");},
-      () => {}
+  post(todo: Todo): Observable<Todo[]> {
+   
+   return this.http.post<Todo[]>(environment.api.url, todo).pipe(
+      tap(
+        () => {
+          this.todoList.push(todo);
+        },
+        () => {}
+      )
     );
-    return todo;
   }
 
   /**
@@ -78,15 +72,8 @@ export class TodoService {
    * @param todoList 
    */
   put(todoList: Todo[]): Observable<Todo[]> {
-    const options = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        "secret-key": environment.jsonbin.key,
-        "versioning": "false"
-      })
-    };
-    const url = environment.jsonbin.url;
-    return this.http.put<Todo[]>(url,todoList, options)
+    const url = environment.api.url;
+    return this.http.put<Todo[]>(url,todoList)
   }
 
 }

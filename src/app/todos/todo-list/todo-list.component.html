@@ -17,9 +17,9 @@
 
 
     <ul *ngFor="let todo of todoList">
-        <h3>{{todo.nom}}</h3>
+        <h3>{{todo.name}}</h3>
         <li>{{todo.description}}</li>
-        <button class="btn" (click)="delete(todo)">Delete</button>
+        <button [disabled]="todo == null" class="btn" (click)="delete(todo)">Delete</button>
     </ul>
 
 </section>

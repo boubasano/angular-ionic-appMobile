@@ -296,7 +296,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<section>\n    <ion-icon name=\"arrow-back\" routerLink=\"/todo\"></ion-icon>\n    <h1>\n        List\n    </h1>\n    <h3>\n        Tasks\n    </h3>\n    <div *ngIf=\"error\">\n        <button class=\"btn\" (click)=\"reload()\">Reload</button>\n    </div>\n    <h1 *ngIf=\"!todoList && !error\">\n        Loading !!\n    </h1>\n    <button routerLink=\"/todo/create\">create</button>\n    <ion-icon name=\"create\"></ion-icon>\n\n\n    <ul *ngFor=\"let todo of todoList\">\n        <h3>{{todo.nom}}</h3>\n        <li>{{todo.description}}</li>\n        <button class=\"btn\" (click)=\"delete(todo)\">Delete</button>\n    </ul>\n\n</section>");
+/* harmony default export */ __webpack_exports__["default"] = ("<section>\n    <ion-icon name=\"arrow-back\" routerLink=\"/todo\"></ion-icon>\n    <h1>\n        List\n    </h1>\n    <h3>\n        Tasks\n    </h3>\n    <div *ngIf=\"error\">\n        <button class=\"btn\" (click)=\"reload()\">Reload</button>\n    </div>\n    <h1 *ngIf=\"!todoList && !error\">\n        Loading !!\n    </h1>\n    <button routerLink=\"/todo/create\">create</button>\n    <ion-icon name=\"create\"></ion-icon>\n\n\n    <ul *ngFor=\"let todo of todoList\">\n        <h3>{{todo.nom}}</h3>\n        <li>{{todo.description}}</li>\n        <button [disabled]=\"todo == null\" class=\"btn\" (click)=\"delete(todo)\">Delete</button>\n    </ul>\n\n</section>");
 
 /***/ }),
 
@@ -309,7 +309,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<section>\n\n    <!-- #nom by this way we can select input for manipulation  -->\n    <ion-icon name=\"arrow-back\" routerLink=\"/todo\"></ion-icon>\n    <h1 id=\"create\">\n        Créer\n    </h1>\n    <form [formGroup]=\"formTodo\" (click)=\"buttonClick()\" [disabled]=\"btnDisabled\" [ngStyle]=\"{'color': (btnDisabled)?\n                                'gray': 'black'}\" (ngSubmit)=\"save(nom.value, description.value)\">\n        <ion-item id=\"form-nom\">\n            <ion-label>Nom de la tâche</ion-label>\n            <ion-input type=\"text\" formControlName=\"nom\" #nom></ion-input>\n        </ion-item>\n        <ion-item id=\"form-desc\">\n            <ion-label>Description</ion-label>\n            <ion-textarea type=\"text\" formControlName=\"description\" #description></ion-textarea>\n        </ion-item>\n        <button ion-button type=\"submit\">\n        {{ btnText }}\n    </button>\n    </form>\n\n    <!-- <ion-card>\n    <ion-card-header>\n            Card Header\n    </ion-card-header>\n    </ion-card> -->\n\n    <button routerLink=\"/todo/list\">list</button>\n\n</section>");
+/* harmony default export */ __webpack_exports__["default"] = ("<section>\n\n    <!-- #nom by this way we can select input for manipulation  -->\n    <ion-icon name=\"arrow-back\" routerLink=\"/todo\"></ion-icon>\n    <h1 id=\"create\">\n        Créer\n    </h1>\n    <form [formGroup]=\"formTodo\" (ngSubmit)=\"save()\">\n        <ion-item id=\"form-nom\">\n            <ion-label>Nom de la tâche</ion-label>\n            <ion-input type=\"text\" formControlName=\"nom\" #nom></ion-input>\n        </ion-item>\n        <ion-item id=\"form-desc\">\n            <ion-label>Description</ion-label>\n            <ion-textarea type=\"text\" formControlName=\"description\" #description></ion-textarea>\n        </ion-item>\n        <div class=\"enregistrer\">\n            <button [disabled]=\"btnDisabled\" ion-button type=\"submit\">\n        {{ btnText }}\n        </button>\n        </div>\n        <!-- <ion-icon name=\"send-sharp\"></ion-icon> -->\n        <!-- <button ion-button color=\"dark\" round type=\"submit\">{{ btnText }}</button> -->\n    </form>\n    <div class=\"bandeau\">\n        <a routerLink=\"/todo/list\">\n            <h1>Découvrez içi vos tâches</h1>\n        </a>\n    </div>\n</section>");
 
 /***/ }),
 
@@ -531,22 +531,6 @@ HomeComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 /***/ }),
 
-/***/ "./src/app/todos/shared/todo.model.ts":
-/*!********************************************!*\
-  !*** ./src/app/todos/shared/todo.model.ts ***!
-  \********************************************/
-/*! exports provided: Todo */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Todo", function() { return Todo; });
-class Todo {
-}
-
-
-/***/ }),
-
 /***/ "./src/app/todos/shared/todo.service.ts":
 /*!**********************************************!*\
   !*** ./src/app/todos/shared/todo.service.ts ***!
@@ -561,6 +545,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
 
 
 
@@ -584,7 +570,7 @@ let TodoService = class TodoService {
             })
         };
         const url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].jsonbin.url;
-        return this.http.get(url, options);
+        return this.http.get(url, options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])((todoList) => { this.todoList = todoList; }, () => { }));
     }
     /**
      * permits to delete and update it
@@ -597,14 +583,23 @@ let TodoService = class TodoService {
                 todoDeleted.push(element);
             }
         });
-        this.put(todoDeleted).subscribe(() => {
+        return this.put(todoDeleted).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(() => {
             const index = this.todoList.indexOf(todo);
             if (index !== -1) {
                 this.todoList.splice(index, 1);
                 this.put(this.todoList);
             }
-        }, () => { });
-        return todo;
+        }, () => { }));
+        // subscribe(
+        //   () => {
+        //   const index: number = this.todoList.indexOf(todo);
+        // if (index !== -1) {
+        //   this.todoList.splice(index, 1);
+        //   this.put(this.todoList);
+        // }
+        //   },
+        //   () => {}
+        // )
     }
     /**
      * permits to read data and update it
@@ -616,12 +611,10 @@ let TodoService = class TodoService {
             created.push(element);
         });
         created.push(todo);
-        console.log(created);
-        this.put(created).subscribe(() => {
+        return this.put(created).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(() => {
             this.todoList.push(todo);
-            alert("votre tache est ajoutée");
-        }, () => { });
-        return todo;
+            // alert("votre tache est ajoutée");
+        }, () => { }));
     }
     /**
      * permits to update
@@ -687,13 +680,11 @@ let TodoListComponent = class TodoListComponent {
         this.reload();
     }
     reload() {
+        this.btnDisabled = false;
         this.todoService.get().subscribe((todoList) => {
             this.error = false;
-            this.todoList = this.todoService.todoList = todoList;
-        }, 
-        //  this.todoList = todoList;
-        // this.todoService.todoList = this.todoList;
-        () => {
+            this.todoList = todoList;
+        }, () => {
             this.error = true;
         });
     }
@@ -703,7 +694,9 @@ let TodoListComponent = class TodoListComponent {
       */
     delete(todo) {
         if (!this.error) {
-            this.todoService.delete(todo);
+            this.todoService.delete(todo).subscribe(() => {
+                this.btnDisabled = true;
+            }, () => { });
         }
     }
 };
@@ -731,7 +724,7 @@ TodoListComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("#create {\n  margin-top: 60px;\n  text-align: center;\n  font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;\n}\n\n#input-list {\n  margin-top: 70px;\n  margin-bottom: 15px;\n}\n\nform {\n  margin-top: 70px;\n}\n\n#form-nom {\n  margin-bottom: 5px;\n}\n\n#form-desc {\n  margin-bottom: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdG9kb3MvdG9kby90b2RvLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBO0VBQ0ksZ0JBQUE7RUFDQSxrQkFBQTtFQUNBLDJEQUFBO0FBREo7O0FBSUE7RUFDSSxnQkFBQTtFQUNBLG1CQUFBO0FBREo7O0FBSUE7RUFDSSxnQkFBQTtBQURKOztBQUlBO0VBQ0ksa0JBQUE7QUFESjs7QUFJQTtFQUNJLG1CQUFBO0FBREoiLCJmaWxlIjoic3JjL2FwcC90b2Rvcy90b2RvL3RvZG8uY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJzZWN0aW9uIHt9XHJcblxyXG4jY3JlYXRlIHtcclxuICAgIG1hcmdpbi10b3A6IDYwcHg7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBmb250LWZhbWlseTogQXJpYWwsIFwiSGVsdmV0aWNhIE5ldWVcIiwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmO1xyXG59XHJcblxyXG4jaW5wdXQtbGlzdCB7XHJcbiAgICBtYXJnaW4tdG9wOiA3MHB4O1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMTVweDtcclxufVxyXG5cclxuZm9ybSB7XHJcbiAgICBtYXJnaW4tdG9wOiA3MHB4O1xyXG59XHJcblxyXG4jZm9ybS1ub20ge1xyXG4gICAgbWFyZ2luLWJvdHRvbTogNXB4O1xyXG59XHJcblxyXG4jZm9ybS1kZXNjIHtcclxuICAgIG1hcmdpbi1ib3R0b206IDIwcHg7XHJcbn0iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("#create {\n  margin-top: 60px;\n  text-align: center;\n  font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;\n}\n\n#input-list {\n  margin-top: 70px;\n  margin-bottom: 15px;\n}\n\nform {\n  margin-top: 70px;\n}\n\n#form-nom {\n  margin-bottom: 5px;\n}\n\n#form-desc {\n  margin-bottom: 20px;\n}\n\n.bandeau {\n  background-color: rgba(246, 101, 246, 0.466);\n  margin-top: 70px;\n  width: 100%;\n  height: 70px;\n  display: flex;\n  justify-content: center;\n  box-shadow: 1px 1px 1px rgba(0, 1, 0, 0.5);\n}\n\n.enregistrer {\n  display: flex;\n  flex-direction: row-reverse;\n  margin-top: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdG9kb3MvdG9kby90b2RvLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBO0VBQ0ksZ0JBQUE7RUFDQSxrQkFBQTtFQUNBLDJEQUFBO0FBREo7O0FBSUE7RUFDSSxnQkFBQTtFQUNBLG1CQUFBO0FBREo7O0FBSUE7RUFDSSxnQkFBQTtBQURKOztBQUlBO0VBQ0ksa0JBQUE7QUFESjs7QUFJQTtFQUNJLG1CQUFBO0FBREo7O0FBSUE7RUFDSSw0Q0FBQTtFQUNBLGdCQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7RUFDQSxhQUFBO0VBQ0EsdUJBQUE7RUFDQSwwQ0FBQTtBQURKOztBQUlBO0VBQ0ksYUFBQTtFQUNBLDJCQUFBO0VBQ0EsZ0JBQUE7QUFESiIsImZpbGUiOiJzcmMvYXBwL3RvZG9zL3RvZG8vdG9kby5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbInNlY3Rpb24ge31cclxuXHJcbiNjcmVhdGUge1xyXG4gICAgbWFyZ2luLXRvcDogNjBweDtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGZvbnQtZmFtaWx5OiBBcmlhbCwgXCJIZWx2ZXRpY2EgTmV1ZVwiLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7XHJcbn1cclxuXHJcbiNpbnB1dC1saXN0IHtcclxuICAgIG1hcmdpbi10b3A6IDcwcHg7XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxNXB4O1xyXG59XHJcblxyXG5mb3JtIHtcclxuICAgIG1hcmdpbi10b3A6IDcwcHg7XHJcbn1cclxuXHJcbiNmb3JtLW5vbSB7XHJcbiAgICBtYXJnaW4tYm90dG9tOiA1cHg7XHJcbn1cclxuXHJcbiNmb3JtLWRlc2Mge1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMjBweDtcclxufVxyXG5cclxuLmJhbmRlYXUge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNDYsIDEwMSwgMjQ2LCAwLjQ2Nik7XHJcbiAgICBtYXJnaW4tdG9wOiA3MHB4O1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDcwcHg7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBib3gtc2hhZG93OiAxcHggMXB4IDFweCByZ2JhKDAsIDAuNSwgMCwgMC41KTtcclxufVxyXG5cclxuLmVucmVnaXN0cmVyIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93LXJldmVyc2U7XHJcbiAgICBtYXJnaW4tdG9wOiAzMHB4O1xyXG59Il19 */");
 
 /***/ }),
 
@@ -748,7 +741,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
-/* harmony import */ var _shared_todo_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/todo.model */ "./src/app/todos/shared/todo.model.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 /* harmony import */ var _shared_todo_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shared/todo.service */ "./src/app/todos/shared/todo.service.ts");
 
 
@@ -761,13 +754,14 @@ let TodoComponent = class TodoComponent {
      * @param formBuilder
      * @param todoService
      */
-    constructor(formBuilder, todoService) {
+    constructor(formBuilder, todoService, route) {
         this.formBuilder = formBuilder;
         this.todoService = todoService;
-        this.btnDisabled = false;
+        this.route = route;
         this.btnText = "Enregistrer";
     }
     ngOnInit() {
+        this.btnDisabled = false;
         this.formTodo = this.formBuilder.group({
             nom: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             description: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
@@ -778,25 +772,20 @@ let TodoComponent = class TodoComponent {
      * @param name
      * @param description
      */
-    save(name, description) {
-        // console.log(this.formTodo.valid);
-        // console.log(this.formTodo.get("nom").valid);
-        // console.log(this.formTodo.get("description").valid);
-        let todo = new _shared_todo_model__WEBPACK_IMPORTED_MODULE_3__["Todo"];
-        todo.nom = name;
-        todo.description = description;
-        this.todoService.post(todo);
-    }
-    buttonClick() {
+    save() {
         this.btnDisabled = true;
-        setTimeout(() => {
-            this.btnDisabled = false;
-        }, 5000);
+        this.todoService.post({
+            nom: this.formTodo.get('nom').value,
+            description: this.formTodo.get('description').value
+        }).subscribe(() => {
+            this.route.navigate(['/list']);
+        }, () => { });
     }
 };
 TodoComponent.ctorParameters = () => [
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
-    { type: _shared_todo_service__WEBPACK_IMPORTED_MODULE_4__["TodoService"] }
+    { type: _shared_todo_service__WEBPACK_IMPORTED_MODULE_4__["TodoService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
 ];
 TodoComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

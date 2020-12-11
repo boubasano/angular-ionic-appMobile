@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Todo } from '../shared/todo.model';
 import { TodoService } from '../shared/todo.service';
 
@@ -12,7 +13,7 @@ export class TodoComponent implements OnInit{
 
   public formTodo: FormGroup;
   public todoList: Todo[];
-  public btnDisabled: Boolean = false;
+  public btnDisabled: Boolean;
   public btnText = "Enregistrer";
   /**
    * 
@@ -21,11 +22,13 @@ export class TodoComponent implements OnInit{
    */
   constructor(
     private formBuilder: FormBuilder,
-    private todoService: TodoService) {}
+    private todoService: TodoService,
+    private route : Router) {}
 
     ngOnInit():void {
+      this.btnDisabled = false;
       this.formTodo = this.formBuilder.group({
-        nom: ["", Validators.required],
+        name: ["", Validators.required],
         description: ["", Validators.required],
       });
     }
@@ -34,23 +37,17 @@ export class TodoComponent implements OnInit{
      * @param name 
      * @param description 
      */
-save(name: string, description: string) {
-  // console.log(this.formTodo.valid);
-  // console.log(this.formTodo.get("nom").valid);
-  // console.log(this.formTodo.get("description").valid);
-
-  let todo = new Todo;
-  todo.nom = name;
-  todo.description =description;
-  this.todoService.post(todo);    
-}
-
-buttonClick() {
+save() {
+  const todo = new Todo();
+  todo.name = this.formTodo.get('name').value;
+  todo.description = this.formTodo.get('description').value
   this.btnDisabled = true;
-  setTimeout(() => {
-    this.btnDisabled = false
-  }, 5000);
-
+  this.todoService.post(todo).subscribe(
+    () => {
+      this.route.navigate(['/list']);
+    },
+    () => {}
+  )
 }
 }
 

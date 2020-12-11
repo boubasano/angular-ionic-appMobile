@@ -10,20 +10,23 @@ import { TodoService } from '../shared/todo.service';
 export class TodoListComponent {
   public todoList: Todo[];
   public error: Boolean;
+  public btnDisabled: Boolean;
+  
+
 
   constructor(private todoService: TodoService) {
     this.reload();
   }
 
   reload(): void {
+    this.btnDisabled = false;
     this.todoService.get().subscribe(
       (todoList: Todo[]) => {
+        
         this.error = false;
-        this.todoList = this.todoService.todoList = todoList;
+        this.todoList = todoList;
       },
 
-      //  this.todoList = todoList;
-      // this.todoService.todoList = this.todoList;
       () => {
         this.error = true;
 
@@ -36,7 +39,12 @@ export class TodoListComponent {
     */
   delete(todo: Todo) {
     if (!this.error) {
-      this.todoService.delete(todo);
+      this.todoService.delete(todo).subscribe(
+        () => {
+          this.btnDisabled = true;
+        },
+        () => {}
+      );
     }
   }
 
