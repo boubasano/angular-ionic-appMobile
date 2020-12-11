@@ -1,6 +1,5 @@
 export class Todo {
-    public id: number;
-    public name: string;
+    public nom: string;
     public description: string;   
 }
 

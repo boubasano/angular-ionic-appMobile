@@ -16,40 +16,56 @@ export class TodoComponent implements OnInit{
   public btnDisabled: Boolean;
   public btnText = "Enregistrer";
   /**
-   * 
-   * @param formBuilder 
-   * @param todoService 
+   *
+   * @param formBuilder
+   * @param todoService
    */
   constructor(
-    private formBuilder: FormBuilder,
-    private todoService: TodoService,
-    private route : Router) {}
+      private formBuilder: FormBuilder,
+      private todoService: TodoService,
+      private route : Router) {}
 
-    ngOnInit():void {
-      this.btnDisabled = false;
-      this.formTodo = this.formBuilder.group({
-        name: ["", Validators.required],
-        description: ["", Validators.required],
-      });
-    }
-    /**
-     * 
-     * @param name 
-     * @param description 
-     */
-save() {
-  const todo = new Todo();
-  todo.name = this.formTodo.get('name').value;
-  todo.description = this.formTodo.get('description').value
-  this.btnDisabled = true;
-  this.todoService.post(todo).subscribe(
-    () => {
-      this.route.navigate(['/list']);
-    },
-    () => {}
-  )
+  ngOnInit():void {
+    this.btnDisabled = false;
+    this.formTodo = this.formBuilder.group({
+      nom: ["", Validators.required],
+      description: ["", Validators.required],
+    });
+  }
+  /**
+   *
+   * @param name
+   * @param description
+   */
+  save() {
+    this.btnDisabled = true;
+    this.todoService.post(
+        {
+          nom: this.formTodo.get('nom').value,
+          description: this.formTodo.get('description').value
+        }
+    ).subscribe(
+        () => {
+          this.route.navigate(['/list']);
+        },
+        () => {}
+    )
+  }
 }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
