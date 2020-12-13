@@ -24,7 +24,7 @@ export class TodoService {
     get(): Observable<Todo[]>{
         const options = {
             headers: new HttpHeaders({
-                "secret-key": environment.jsonbin.key,
+                "secret-key": environment.jsonbin.key
             })
         };
         const url = environment.jsonbin.url;
