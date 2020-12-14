@@ -28,7 +28,7 @@ export class TodoComponent implements OnInit{
   ngOnInit():void {
     this.btnDisabled = false;
     this.formTodo = this.formBuilder.group({
-      nom: ["", Validators.required],
+      name: ["", Validators.required],
       description: ["", Validators.required],
     });
   }
@@ -41,7 +41,7 @@ export class TodoComponent implements OnInit{
     this.btnDisabled = true;
     this.todoService.post(
         {
-          nom: this.formTodo.get('nom').value,
+          name: this.formTodo.get('name').value,
           description: this.formTodo.get('description').value
         }
     ).subscribe(
