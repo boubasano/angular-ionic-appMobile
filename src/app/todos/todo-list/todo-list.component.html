@@ -10,9 +10,10 @@
     <h1 *ngIf="!todoList && !error">
         Loading !!
     </h1>
-    <button routerLink="/todo/create">create</button>
-    <ion-icon name="create"></ion-icon>
-
+    <h3>Creer une tâche içi</h3>
+    <h3>
+        <ion-icon name="create-outline" routerLink="/todo/create">Creer</ion-icon>
+    </h3>
 
     <ul *ngFor="let todo of todoList">
         <h3>{{todo.name}}</h3>
