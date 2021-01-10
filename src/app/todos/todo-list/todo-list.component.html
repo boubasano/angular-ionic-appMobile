@@ -1,13 +1,11 @@
 <section>
     <ion-icon name="arrow-back" routerLink="/todo"></ion-icon>
     <h1>
-        List
+        Liste des taches
     </h1>
-    <h3>
-        Tasks
-    </h3>
+
     <div *ngIf="error">
-        <button class="btn" (click)="reload()">Reload</button>
+        <button class="btn" (click)="reload()">Rechargement</button>
     </div>
     <h1 *ngIf="!todoList && !error">
         Loading !!
@@ -19,7 +17,7 @@
     <ul *ngFor="let todo of todoList">
         <h3>{{todo.name}}</h3>
         <li>{{todo.description}}</li>
-        <button [disabled]="todo == null" class="btn" (click)="delete(todo)">Delete</button>
+        <button [disabled]="todo == null" class="btn" (click)="delete(todo)">Supprimer</button>
     </ul>
 
 </section>

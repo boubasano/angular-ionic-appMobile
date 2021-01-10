@@ -31,6 +31,7 @@ export class TodoService {
         return this.http.get<Todo[]>(url, options).pipe(
             tap(
                 (todoList: Todo[])=>{this.todoList = todoList},
+                
                 ()=>{}
             )
         );
@@ -82,10 +83,13 @@ export class TodoService {
             created.push(element)
         })
         created.push(todo);
+        console.log(created);
+        
         return this.put(created).pipe(
             tap(
                 () => {
                     this.todoList.push(todo);
+                    console.log(this.todoList);
                     // alert("votre tache est ajoutée");
                 },
                 () => {}
